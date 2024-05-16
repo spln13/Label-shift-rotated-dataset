@@ -13,17 +13,17 @@ class CustomizedDataset(Dataset):
         return image, label
 
 
-def load_data_for_client(client_id, dataset='cifar10'):
+def load_data_for_client(client_id, dataset='cifar10', dataset_type='train'):
     if dataset == 'cifar10':
-        data_path = f'./noniid_cifar10/client_{client_id}/train_data.pt'
+        data_path = f'./noniid_cifar10/client_{client_id}/{dataset_type}_data.pt'
     else:  # mnist
-        data_path = f'./noniid_mnist/client_{client_id}/train_data.pt'
+        data_path = f'./noniid_mnist/client_{client_id}/{dataset_type}_data.pt'
     dataset = CustomizedDataset(data_path)
     data_loader = DataLoader(dataset, batch_size=32, shuffle=True)
     return data_loader
 
 if __name__ == '__main__':
-    client_data_loader = load_data_for_client(0, dataset='cifar10')
+    client_data_loader = load_data_for_client(0, dataset='cifar10', dataset_type='train')
     # 使用 DataLoader
     for images, labels in client_data_loader:
         print(images.shape, labels.shape)
